@@ -1,0 +1,20 @@
+# Ignore build outputs
+**/bin/
+**/obj/
+
+# Ignore user-specific files
+.vs/
+*.user
+*.suo
+
+# ASP.NET secrets (if used)
+secrets.json
+
+# Logs
+*.log
+
+# Optional: Ignore environment configs if secret
+appsettings.Production.json
+
+# Ignore publish folders if used
+**/publish/
