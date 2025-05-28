@@ -5,9 +5,9 @@ WORKDIR /app
 # Copy the entire solution and restore dependencies
 COPY *.sln ./
 COPY SSO.API/*.csproj ./SSO.API/
-COPY SSO.SERVICES/*.csproj ./SSO.SERVICES/
-COPY REPOSITORY/*.csproj ./REPOSITORY/
-COPY UTILITY/*.csproj ./UTILITY/
+COPY SSO.SERVICES/SSO.Services.csproj ./SSO.SERVICES/
+COPY SSO.REPOSITORY/SSO.Repository.csproj ./REPOSITORY/
+COPY SSO.Utility/SSO.Utility.csproj ./Utility/
 
 RUN dotnet restore
 
