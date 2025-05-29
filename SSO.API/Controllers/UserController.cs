@@ -70,10 +70,10 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            return Ok("Error at the controller");
         }
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> RefreshTokens([FromBody] TokenDTO tokens, [FromQuery] string redirect_uri)
     {
@@ -82,7 +82,7 @@ public class UserController : ControllerBase
             var issuer = _configuration["JwtSettings:Issuer"];
             var audience = _configuration["JwtSettings:Audience"];
             TokenDTO tokenDTO = await _userService.GetTokens(tokens, audience, issuer);
-            return Ok(tokenDTO);       
+            return Ok(tokenDTO);
         }
         catch
         {
