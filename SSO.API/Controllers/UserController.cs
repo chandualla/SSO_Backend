@@ -39,8 +39,13 @@ public class UserController : ControllerBase
         try
         {
             var parsedState = JsonSerializer.Deserialize<Dictionary<string, string>>(state);
-            string spRedirect = parsedState["redirect"];
-            string provider = parsedState["provider"];
+            // string spRedirect = parsedState["redirect"];
+            // string provider = parsedState["provider"];
+            if (parsedState == null || !parsedState.TryGetValue("redirect", out var spRedirect) || !parsedState.TryGetValue("provider", out var provider))
+            {
+                return BadRequest("Invalid or missing state parameters.");
+            }
+
             ProviderDetails details = new ProviderDetails
             {
                 Code = code,
@@ -70,7 +75,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok("Error at the controller");
+            return StatusCode(500, $"Error at controller:{ex.Message}");
         }
     }
 
