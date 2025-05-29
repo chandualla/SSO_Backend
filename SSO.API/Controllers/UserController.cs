@@ -55,7 +55,7 @@ public class UserController : ControllerBase
                 Code = code,
                 Client = _httpClientFactory.CreateClient(),
                 ClientId = _configuration[$"OAuthProviders:{provider}:ClientId"]!,
-                RedirectUri = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/User/Login",
+                RedirectUri = _configuration[$"Authorization:RedirectUri"],
                 ClientSecret = _configuration[$"OAuthProviders:{provider}:ClientSecret"]!,
                 Issuer = _configuration["JwtSettings:Issuer"]!,
                 Audience = _configuration["JwtSettings:Audience"]!,
