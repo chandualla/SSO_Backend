@@ -24,13 +24,17 @@ public class UserController : ControllerBase
 
     private readonly IWebHostEnvironment _env;
 
-    public UserController(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IConfiguration configuration, IUserService userService, IWebHostEnvironment env)
+    private ILogger<UserController> _ilogger;
+
+    public UserController(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IConfiguration configuration, IUserService userService, IWebHostEnvironment env, ILogger<UserController> ilogger)
     {
         _httpContextAccessor = httpContextAccessor;
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
         _userService = userService;
         _env = env;
+        _ilogger = ilogger;
+
     }
 
     [HttpGet]
@@ -60,6 +64,7 @@ public class UserController : ControllerBase
                 Provider = provider,
                 EmailClaim = _configuration[$"OAuthProviders:{provider}:EmailClaim"]!
             };
+            _ilogger.LogInformation($"Redircet URI: {details.RedirectUri}");
 
             List<string> tokens = await _userService.Login(details);
 
