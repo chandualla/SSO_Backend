@@ -77,8 +77,8 @@ public class UserService : IUserService
 
             User user = await _userRepository.GetUser(email);   
 
-            var privateKeyPath = Path.Combine(_env.ContentRootPath, "Keys", "private_key.pem");
-            var privateKeyPem = File.ReadAllText(privateKeyPath);
+            // var privateKeyPath = Environment.GetEnvironmentVariable("PRIVATE_KEY_PEM");
+            var privateKeyPem = Environment.GetEnvironmentVariable("PRIVATE_KEY_PEM");
             string access = TokenUtility.GenerateJwtToken("Access", details.Issuer, details.Audience, user.Id.ToString(), email, privateKeyPem);
 
             string refresh = TokenUtility.GenerateJwtToken("Refresh", details.Issuer, details.Audience, user.Id.ToString(), email, privateKeyPem);
@@ -95,8 +95,8 @@ public class UserService : IUserService
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var rsa = RSA.Create();
-        var publicKeyPath = Path.Combine(_env.ContentRootPath, "Keys", "public_key.pem");
-        var publicKeyPem = File.ReadAllText(publicKeyPath);
+        // var publicKeyPath = Path.Combine(_env.ContentRootPath, "Keys", "public_key.pem");
+        var publicKeyPem = Environment.GetEnvironmentVariable("PUBLIC_KEY_PEM");
         rsa.ImportFromPem(publicKeyPem.ToCharArray());
         var validationParameters = new TokenValidationParameters
         {
